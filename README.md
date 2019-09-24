@@ -28,8 +28,9 @@ These instructions will outline the relevant software and files to download for 
     chmod u+x bedToGenePred
     chmod u+x gtfToGenePred
     ```
-4. Generate nORFs bed file (`noInFrame_19.bed` and/or `noInFrame_38.bed`) files from https://github.com/PrabakaranGroup/nORF-data-prep
-5. Download VCF files of interest
+4. Download of clone `gtfMaker.R` from this repository.
+5. Generate nORFs bed file (`noInFrame_19.bed` and/or `noInFrame_38.bed`) files from https://github.com/PrabakaranGroup/nORF-data-prep
+6. Download VCF files of interest
 For examples here we will show COSMIC coding variants and gnomAD exomes as examples. For COSMIC [register](https://cancer.sanger.ac.uk/cosmic/download) then unzip and download the coding `.vcf` file to a new directory called `Cosmic`. For [gnomAD](https://gnomad.broadinstitute.org/downloads) download the exomes `.vcf` files. 
 
 ## Process nORFs bed file into a usable GTF file for custom annotations
@@ -54,16 +55,17 @@ tabix -p gff norfs_38.gtf.gz
 ```
 
 ## Annotate variants in nORF and canonical contexts
+This code is for VEP 96, which can be up updated in these lines to the VEP version being used.
 ```
 #gnomadExomes norfs
-sudo docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/gnomADexomes.vcf -o /opt/vep/.vep/gnomadExomes_norfs.vcf --port 3337 --gtf /opt/vep/.vep/norfs_19.gtf.gz --force_overwrite --most_severe --fasta /opt/vep/.vep/homo_sapiens/96_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz 
+docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/gnomADexomes.vcf -o /opt/vep/.vep/gnomadExomes_norfs.vcf --port 3337 --gtf /opt/vep/.vep/norfs_19.gtf.gz --force_overwrite --most_severe --fasta /opt/vep/.vep/homo_sapiens/96_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz 
 #gnomadExomes canonical
-sudo docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/gnomADexomes.vcf -o /opt/vep/.vep/gnomadExomes_vep.vcf --port 3337 --cache --force_overwrite --most_severe --fasta /opt/vep/.vep/homo_sapiens/96_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz 
+docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/gnomADexomes.vcf -o /opt/vep/.vep/gnomadExomes_vep.vcf --port 3337 --cache --force_overwrite --most_severe --fasta /opt/vep/.vep/homo_sapiens/96_GRCh37/Homo_sapiens.GRCh37.75.dna.primary_assembly.fa.gz 
 
 #Cosmic Coding norfs
-sudo docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/CosmicCodingMuts.vcf -o /opt/vep/.vep/cosmicCoding_norfs.vcf --gtf /opt/vep/.vep/norfs_38.gtf.gz --force_overwrite --most_severe --fasta /opt/vep/.vep/homo_sapiens/96_GRCh38/Homo_sapiens.GRCh38.dna.toplevel.fa.gz  
+docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/CosmicCodingMuts.vcf -o /opt/vep/.vep/cosmicCoding_norfs.vcf --gtf /opt/vep/.vep/norfs_38.gtf.gz --force_overwrite --most_severe --fasta /opt/vep/.vep/homo_sapiens/96_GRCh38/Homo_sapiens.GRCh38.dna.toplevel.fa.gz  
 #Cosmic Coding canonical
-sudo docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/CosmicCodingMuts.vcf -o /opt/vep/.vep/cosmicCoding_vep.vcf --cache --force_overwrite --most_severe 
+docker run -d -t -i -v $HOME/vep_data:/opt/vep/.vep ensemblorg/ensembl-vep ./vep -i /opt/vep/.vep/CosmicCodingMuts.vcf -o /opt/vep/.vep/cosmicCoding_vep.vcf --cache --force_overwrite --most_severe 
 
 ```
 
