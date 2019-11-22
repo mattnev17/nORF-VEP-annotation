@@ -24,11 +24,11 @@ These instructions will outline the relevant software and files to download for 
 3. Download bedToGenePred and gtfToGenePred
     ```
     wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/bedToGenePred
-    wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/gtfToGenePred
+    wget http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/genePredToGtf
     chmod u+x bedToGenePred
-    chmod u+x gtfToGenePred
+    chmod u+x genePredToGtf
     ```
-4. Download of clone `gtfMaker.R` from this repository.
+4. Clone `gtfMaker.R` from this repository.
 5. Generate nORFs bed file (`noInFrame_19.bed` and/or `noInFrame_38.bed`) files from https://github.com/PrabakaranGroup/nORF-data-prep
 6. Download VCF files of interest
 For examples here we will show COSMIC coding variants and gnomAD exomes as examples. For COSMIC [register](https://cancer.sanger.ac.uk/cosmic/download) then unzip and download the coding `.vcf` file to a new directory called `Cosmic`. For [gnomAD](https://gnomad.broadinstitute.org/downloads) download the exomes `.vcf` files. 
